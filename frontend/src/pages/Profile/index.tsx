@@ -25,7 +25,7 @@ const Profile: React.FC = () => {
     });
   }, [ongId]);
 
-  async function handleDeleteIncident(id: any) {
+  const handleDeleteIncident = async (id: any): Promise<void> => {
     try {
       await api.delete(`incidents/${id}`, {
         headers: {
@@ -37,13 +37,13 @@ const Profile: React.FC = () => {
     } catch (error) {
       alert('Erro ao deletar caso, tente novamente.');
     }
-  }
+  };
 
-  function handleLogout() {
+  const handleLogout = (): void => {
     localStorage.clear();
 
     history.push('/');
-  }
+  };
 
   return (
     <div className="profile-container">

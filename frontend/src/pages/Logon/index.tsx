@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FormEventHandler } from 'react';
 import { FiLogIn } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const Logon: React.FC = () => {
   const [id, setId] = useState('');
   const history = useHistory();
 
-  async function handleLogin(e: any) {
+  const handleLogin: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     try {
@@ -25,7 +25,7 @@ const Logon: React.FC = () => {
     } catch (error) {
       alert('Falha ao realizar login');
     }
-  }
+  };
 
   return (
     <div className="logon-container">

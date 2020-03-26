@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FormEventHandler } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ const Register: React.FC = () => {
 
   const history = useHistory();
 
-  async function handleRegister(e: any) {
+  const handleRegister: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     const data = {
@@ -35,7 +35,7 @@ const Register: React.FC = () => {
     } catch (error) {
       alert('Erro no cadastro, tente novamente.');
     }
-  }
+  };
 
   return (
     <div className="register-container">
