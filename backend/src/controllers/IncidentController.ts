@@ -52,7 +52,7 @@ export default {
     const { id } = request.params;
     const ongId = request.headers.authorization;
 
-    const incident = await connection('incidents')
+    const incident = await connection<IncidentProps>('incidents')
       .where('id', id)
       .select('ongId')
       .first();
