@@ -1,8 +1,8 @@
-import crypto from 'crypto';
 import { Request, Response } from 'express';
 
 import connection from '../database/connection';
 import { OngProps } from '../interfaces';
+import generateUniqueId from '../utils/generateUniqueId';
 
 interface CustomRequest extends Request {
   body: OngProps;
@@ -20,7 +20,7 @@ export default {
       name, email, whatsapp, city, uf,
     } = request.body;
 
-    const id = crypto.randomBytes(4).toString('HEX');
+    const id = generateUniqueId();
 
     await connection<OngProps>('ongs').insert({
       id,

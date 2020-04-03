@@ -1,3 +1,4 @@
+import { errors } from 'celebrate';
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
@@ -21,6 +22,7 @@ class Server {
     this.express.use(cors());
     this.express.use(express.json());
     this.express.use(routes);
+    this.express.use(errors());
   }
 }
 
