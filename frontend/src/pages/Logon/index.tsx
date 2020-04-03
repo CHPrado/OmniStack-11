@@ -6,17 +6,18 @@ import './styles.css';
 
 import heroesImg from '../../assets/heroes.png';
 import logoImg from '../../assets/logo.svg';
+import { OngProps } from '../../interfaces';
 import api from '../../services/api';
 
 const Logon: React.FC = () => {
-  const [id, setId] = useState('');
+  const [id, setId] = useState<OngProps['id']>('');
   const history = useHistory();
 
   const handleLogin: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await api.post('sessions', { id });
+      const response = await api.post<Pick<OngProps, 'name'>>('sessions', { id });
 
       localStorage.setItem('ongId', id);
       localStorage.setItem('ongName', response.data.name);

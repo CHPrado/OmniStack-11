@@ -5,10 +5,11 @@ import { Link, useHistory } from 'react-router-dom';
 import './styles.css';
 
 import logoImg from '../../assets/logo.svg';
+import { IncidentProps } from '../../interfaces';
 import api from '../../services/api';
 
 const Profile: React.FC = () => {
-  const [incidents, setIncidents] = useState<any>([]);
+  const [incidents, setIncidents] = useState<IncidentProps[]>([]);
 
   const history = useHistory();
 
@@ -16,7 +17,7 @@ const Profile: React.FC = () => {
   const ongName = localStorage.getItem('ongName');
 
   useEffect(() => {
-    api.get('profile', {
+    api.get<IncidentProps[]>('profile', {
       headers: {
         Authorization: ongId,
       },
@@ -25,7 +26,7 @@ const Profile: React.FC = () => {
     });
   }, [ongId]);
 
-  const handleDeleteIncident = async (id: any): Promise<void> => {
+  const handleDeleteIncident = async (id: IncidentProps['id']): Promise<void> => {
     try {
       await api.delete(`incidents/${id}`, {
         headers: {
@@ -33,7 +34,7 @@ const Profile: React.FC = () => {
         },
       });
 
-      setIncidents(incidents.filter((incident: any) => incident.id !== id));
+      setIncidents(incidents.filter((incident: IncidentProps) => incident.id !== id));
     } catch (error) {
       alert('Erro ao deletar caso, tente novamente.');
     }
@@ -60,7 +61,7 @@ const Profile: React.FC = () => {
       <h1>Casos Cadastrados</h1>
 
       <ul>
-        { incidents.map((incident: any) => (
+        { incidents.map((incident) => (
           <li key={incident.id}>
             <strong>CASO:</strong>
             <p>{incident.title}</p>

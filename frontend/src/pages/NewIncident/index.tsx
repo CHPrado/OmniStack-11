@@ -5,12 +5,13 @@ import { Link, useHistory } from 'react-router-dom';
 import './styles.css';
 
 import logoImg from '../../assets/logo.svg';
+import { IncidentProps } from '../../interfaces';
 import api from '../../services/api';
 
 const NewIncident: React.FC = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [value, setValue] = useState('');
+  const [title, setTitle] = useState<IncidentProps['title']>('');
+  const [description, setDescription] = useState<IncidentProps['description']>('');
+  const [value, setValue] = useState<IncidentProps['value']>();
 
   const history = useHistory();
 
@@ -19,14 +20,14 @@ const NewIncident: React.FC = () => {
   const handleNewIncident: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    const data = {
+    const data: IncidentProps = {
       title,
       description,
-      value,
+      value: value as number,
     };
 
     try {
-      await api.post('incidents', data, {
+      await api.post<IncidentProps>('incidents', data, {
         headers: {
           Authorization: ongId,
         },
@@ -66,7 +67,7 @@ const NewIncident: React.FC = () => {
           <input
             placeholder="Valor em reais"
             value={value}
-            onChange={(e): void => setValue(e.target.value)}
+            onChange={(e): void => setValue(e.target.value as unknown as number)}
           />
 
           <button className="button" type="submit">Cadastrar</button>

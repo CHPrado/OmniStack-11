@@ -13,16 +13,17 @@ import logoImg from '../../assets/logo.png';
 import { IncidentProps } from '../../interfaces';
 import styles from './styles';
 
-type IncidentRouteParams = {
-  incident: IncidentProps;
+type ParamList = {
+  Detail: {
+    incident: IncidentProps;
+  };
 }
 
 const Detail: React.FC = () => {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<Record<string, IncidentRouteParams>, string>>();
+  const route = useRoute<RouteProp<ParamList, 'Detail'>>();
 
-  // eslint-disable-next-line prefer-destructuring
-  const incident = route.params.incident;
+  const { incident } = route.params;
 
   const message = `Olá ${incident.name}, gostaria de ajudar no caso "${incident.title}" com o valor de
     ${Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(incident.value)}`;

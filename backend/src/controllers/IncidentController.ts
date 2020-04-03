@@ -1,14 +1,22 @@
 import { Request, Response } from 'express';
 
 import connection from '../database/connection';
+import { OngIncidentProps, IncidentProps } from '../interfaces';
+
+interface CustomRequest extends Request {
+  body: IncidentProps;
+  query: {
+    page: number;
+  };
+}
 
 export default {
-  async index(request: Request, response: Response): Promise<Response> {
+  async index(request: CustomRequest, response: Response): Promise<Response> {
     const { page = 1 } = request.query;
 
     const [count] = await connection('incidents').count();
 
-    const incidents = await connection('incidents')
+    const incidents: OngIncidentProps[] = await connection('incidents')
       .join('ongs', 'ongs.id', '=', 'incidents.ongId')
       .limit(5)
       .offset((page - 1) * 5)
@@ -26,11 +34,11 @@ export default {
     return response.json(incidents);
   },
 
-  async create(request: Request, response: Response): Promise<Response> {
+  async create(request: CustomRequest, response: Response): Promise<Response> {
     const { title, description, value } = request.body;
     const ongId = request.headers.authorization;
 
-    const [id] = await connection('incidents').insert({
+    const [id] = await connection<IncidentProps>('incidents').insert({
       title,
       description,
       value,

@@ -2,10 +2,11 @@ import crypto from 'crypto';
 import { Request, Response } from 'express';
 
 import connection from '../database/connection';
+import { OngProps } from '../interfaces';
 
 export default {
   async index(request: Request, response: Response): Promise<Response> {
-    const ongs = await connection('ongs').select('*');
+    const ongs = await connection<OngProps>('ongs').select('*');
 
     return response.json(ongs);
   },

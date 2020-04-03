@@ -1,12 +1,17 @@
 import { Request, Response } from 'express';
 
 import connection from '../database/connection';
+import { OngProps } from '../interfaces';
+
+interface CustomRequest extends Request {
+  body: OngProps;
+}
 
 export default {
-  async create(request: Request, response: Response): Promise<Response> {
+  async create(request: CustomRequest, response: Response): Promise<Response> {
     const { id } = request.body;
 
-    const ong = await connection('ongs')
+    const ong = await connection<OngProps>('ongs')
       .where('id', id)
       .select('name')
       .first();
